@@ -1,21 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guest Wi-Fi Info</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-    h1 { color: #333; }
-    p { font-size: 1.2em; }
-    .ssid { font-weight: bold; font-size: 1.5em; }
-    .password { font-weight: bold; color: #555; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wi-Fi</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Arial;
+  background: #f2f2f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  width: 90%;
+  max-width: 350px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+.network {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.copy-btn {
+  background: #007aff;
+  color: white;
+}
+
+.copy-btn:active {
+  background: #005ecb;
+}
+
+.secondary {
+  background: #e5e5ea;
+}
+
+.qr {
+  margin-top: 20px;
+}
+
+.small {
+  font-size: 13px;
+  color: gray;
+  margin-top: 10px;
+}
+</style>
 </head>
+
 <body>
-  <h1>Connect to Wi-Fi</h1>
-  <p>Network Name (SSID): <span class="ssid">KPN770F76_guest</span></p>
-  <p>Password: <span class="password">3XwjVHkGIG2VLMfY</span></p>
-  <p>Open your Wi-Fi settings and enter these details manually to connect.</p>
+
+<div class="card">
+  <h1>Wi-Fi Access</h1>
+  <div class="network">KPN770F76_guest</div>
+
+  <button class="copy-btn" onclick="copyPassword()">
+    📋 Copy Password
+  </button>
+
+  <button class="secondary" onclick="showQR()">
+    📷 Show QR Code
+  </button>
+
+  <div id="qrContainer" class="qr" style="display:none;">
+    <img id="qrImage" width="200" />
+  </div>
+
+  <div class="small">
+    Paste the password in Wi-Fi settings to connect
+  </div>
+</div>
+
+<script>
+function copyPassword() {
+  navigator.clipboard.writeText("3XwjVHkGIG2VLMfY");
+  
+  const btn = document.querySelector(".copy-btn");
+  btn.innerText = "✅ Copied!";
+  
+  setTimeout(() => {
+    btn.innerText = "📋 Copy Password";
+  }, 2000);
+}
+
+function showQR() {
+  const qrData = "WIFI:T:WPA;S:KPN770F76_guest;P:3XwjVHkGIG2VLMfY;;";
+  const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(qrData);
+  
+  document.getElementById("qrImage").src = qrUrl;
+  document.getElementById("qrContainer").style.display = "block";
+}
+</script>
+
 </body>
 </html>
